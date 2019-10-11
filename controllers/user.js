@@ -6,6 +6,7 @@ const _ = require('lodash');
 const validator = require('validator');
 const mailChecker = require('mailchecker');
 const User = require('../models/User');
+const axios = require('axios');
 
 const randomBytesAsync = promisify(crypto.randomBytes);
 
@@ -27,28 +28,23 @@ exports.getLogin = (req, res) => {
  * Sign in using email and password.
  */
 exports.postLogin = (req, res, next) => {
-  const validationErrors = [];
-  if (!validator.isEmail(req.body.email)) validationErrors.push({ msg: 'Please enter a valid email address.' });
-  if (validator.isEmpty(req.body.password)) validationErrors.push({ msg: 'Password cannot be blank.' });
 
-  if (validationErrors.length) {
-    req.flash('errors', validationErrors);
-    return res.redirect('/login');
-  }
-  req.body.email = validator.normalizeEmail(req.body.email, { gmail_remove_dots: false });
+  const formData = {
+    email: req.body.email,
+    senha: req.body.password
+  };
 
-  passport.authenticate('local', (err, user, info) => {
-    if (err) { return next(err); }
-    if (!user) {
-      req.flash('errors', info);
-      return res.redirect('/login');
-    }
-    req.logIn(user, (err) => {
-      if (err) { return next(err); }
-      req.flash('success', { msg: 'Success! You are logged in.' });
-      res.redirect(req.session.returnTo || '/');
+  axios.post('http://ec2-3-86-70-99.compute-1.amazonaws.com:3100/api/restaurante/auth/', formData)
+    .then(() => {
+      req.flash('success', { msg: 'Logged In' });
+      res.redirect('/logged');
+    })
+    .catch((error) => {
+      req.flash('errors', { msg: error.response.data.message });
+      res.redirect('/');
     });
-  })(req, res, next);
+
+  res.redirect('/');
 };
 
 /**
@@ -91,29 +87,29 @@ exports.postSignup = (req, res, next) => {
     req.flash('errors', validationErrors);
     return res.redirect('/signup');
   }
+
   req.body.email = validator.normalizeEmail(req.body.email, { gmail_remove_dots: false });
 
-  const user = new User({
+  const formData = {
+    nome: req.body.nome,
+    local: req.body.local,
     email: req.body.email,
-    password: req.body.password
-  });
+    senha: req.body.password,
+    quantidadeMesas: req.body.qtyMesas,
+    foto: req.body.foto
+  };
 
-  User.findOne({ email: req.body.email }, (err, existingUser) => {
-    if (err) { return next(err); }
-    if (existingUser) {
-      req.flash('errors', { msg: 'Account with that email address already exists.' });
-      return res.redirect('/signup');
-    }
-    user.save((err) => {
-      if (err) { return next(err); }
-      req.logIn(user, (err) => {
-        if (err) {
-          return next(err);
-        }
-        res.redirect('/');
-      });
+  axios.post('http://ec2-3-86-70-99.compute-1.amazonaws.com:3100/api/restaurante/', formData)
+    .then(() => {
+      req.flash('success', { msg: 'Created Restaurant' });
+      res.redirect('/logged');
+    })
+    .catch((error) => {
+      req.flash('errors', { msg: error.response.data.message });
+      res.redirect('/');
     });
-  });
+
+  res.redirect('/');
 };
 
 /**

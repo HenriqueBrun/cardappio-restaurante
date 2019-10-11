@@ -1,0 +1,18 @@
+.navbar.navbar-light.fixed-top.navbar-expand-lg
+  .container
+    a.navbar-brand(href='/logged')
+      i.fas.fa-utensils
+      | Cardappio
+    button.navbar-toggler(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+      span.sr-only Toggle navigation
+      span.navbar-toggler-icon
+    .collapse.navbar-collapse
+      ul.nav.navbar-nav.ml-auto
+        li.nav-item(class=(title === 'Cadastrar Prato') ? 'active' : undefined)
+          a.nav-link(href='/cadastrar-prato') Cadastrar Prato
+        li.nav-item(class=(title === 'Listar Pratos') ? 'active' : undefined)
+          a.nav-link(href='/listar-pratos') Listar Pratos
+        li.nav-item(class=(title === 'Listar Pratos') ? 'active' : undefined)
+          a.nav-link(href='/listar-pedidos') Listar Pedidos
+        li.nav-item(class=(title === 'Ver Perfil') ? 'active' : undefined)
+          a.nav-link(href='/ver-perfil') Ver Perfil

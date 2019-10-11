@@ -7,3 +7,9 @@ exports.index = (req, res) => {
     title: 'Home'
   });
 };
+
+exports.loggedIndex = (req, res) => {
+  res.render('loggedHome', {
+    title: 'Home'
+  });
+};
