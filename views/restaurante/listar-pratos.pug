@@ -1,0 +1,12 @@
+extends ../loggedLayout
+
+block content
+  .pb-2.mt-2.mb-4.border-bottom
+    each val, index in data
+      div.border.rounded.border-danger.pb-2.mt-2.mb-4
+        div.pl-2
+          img(src=val.foto)
+          h3 Titulo: #{val.titulo}
+          h3 Preco: #{val.valor}
+          h3 Tempo: #{val.tempo}
+          h3 Descricao: #{val.descricao}

@@ -1,0 +1,32 @@
+extends ../loggedLayout
+
+block content
+  .pb-2.mt-2.mb-4.border-bottom
+    h3 Criar Prato
+  form(id='signup-form', method='POST')
+    input(type='hidden', name='_csrf', value=_csrf)
+    .form-group.row
+      label.col-md-3.col-form-label.font-weight-bold.text-right(for='titulo') Titulo
+      .col-md-7
+        input.form-control(type='text', name='titulo', id='titulo', placeholder='Titulo', autofocus, autocomplete='titulo', required)
+    .form-group.row
+      label.col-md-3.col-form-label.font-weight-bold.text-right(for='foto') Foto em Base64
+      .col-md-7
+        input.form-control(type='textarea', name='foto', id='foto', placeholder='Foto em Base64', autofocus, autocomplete='foto', required)
+    .form-group.row
+      label.col-md-3.col-form-label.font-weight-bold.text-right(for='descricao') Descricao
+      .col-md-7
+        input.form-control(type='textarea', name='descricao', id='descricao', placeholder='Descricao', autofocus, autocomplete='descricao', required)
+    .form-group.row
+      label.col-md-3.col-form-label.font-weight-bold.text-right(for='valor') Valor
+      .col-md-7
+        input.form-control(type='number', name='valor', id='valor', placeholder='Valor', autofocus, autocomplete='valor', min="1", required)
+    .form-group.row
+      label.col-md-3.col-form-label.font-weight-bold.text-right(for='tempo') Tempo
+      .col-md-7
+        input.form-control(type='number', name='tempo', id='tempo', placeholder='Tempo', autofocus, autocomplete='tempo', min="1", required)
+    .form-group.offset-sm-3.col-md-7.pl-2
+      button.btn.btn-success(type='submit')
+        i.fas.fa-user-plus.fa-sm
+        | Criar Prato
+

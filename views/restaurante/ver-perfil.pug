@@ -1,0 +1,26 @@
+extends ../loggedLayout
+
+block content
+  form(method='POST')
+    input(type='hidden', name='_csrf', value=_csrf)
+    .form-group.row
+      .col-md-7
+        img(src=data.foto)
+    .form-group.row
+      .col-md-7
+        label.col-md-3.col-form-label.font-weight-bold.text-center(for='email') Nome: 
+        label.col-md-3.col-form-label.text-center(for='email') #{data.nome}
+    .form-group.row
+      .col-md-7
+        label.col-md-3.col-form-label.font-weight-bold.text-center(for='email') Local: 
+        label.col-md-3.col-form-label.text-center(for='email') #{data.local}
+    .form-group.row
+      .col-md-7
+        label.col-md-3.col-form-label.font-weight-bold.text-center(for='email') E-mail: 
+        label.col-md-3.col-form-label.text-center(for='email') #{data.email}
+    .form-group.row
+      .col-md-7
+        label.col-md-3.col-form-label.font-weight-bold.text-center(for='email') Quantidade de Mesas: 
+        label.col-md-3.col-form-label.text-center(for='email') #{data.quantidadeMesas}
+    .form-group
+      .offset-md-3.col-md-7.pl-2

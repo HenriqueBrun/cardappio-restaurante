@@ -7,6 +7,7 @@ const validator = require('validator');
 const mailChecker = require('mailchecker');
 const User = require('../models/User');
 const axios = require('axios');
+const session = require('express-session');
 
 const randomBytesAsync = promisify(crypto.randomBytes);
 
@@ -35,7 +36,9 @@ exports.postLogin = (req, res, next) => {
   };
 
   axios.post('http://ec2-3-86-70-99.compute-1.amazonaws.com:3100/api/restaurante/auth/', formData)
-    .then(() => {
+    .then((data) => {
+      ssn = req.session;
+      ssn.restauranteId=data.data._id;
       req.flash('success', { msg: 'Logged In' });
       res.redirect('/logged');
     })
@@ -43,8 +46,6 @@ exports.postLogin = (req, res, next) => {
       req.flash('errors', { msg: error.response.data.message });
       res.redirect('/');
     });
-
-  res.redirect('/');
 };
 
 /**
@@ -99,17 +100,18 @@ exports.postSignup = (req, res, next) => {
     foto: req.body.foto
   };
 
-  axios.post('http://ec2-3-86-70-99.compute-1.amazonaws.com:3100/api/restaurante/', formData)
+  var config = {
+    headers: {'Content-Type': 'application/json'}
+  };
+
+  axios.post('http://ec2-3-86-70-99.compute-1.amazonaws.com:3100/api/restaurante/', formData, config)
     .then(() => {
       req.flash('success', { msg: 'Created Restaurant' });
       res.redirect('/logged');
-    })
-    .catch((error) => {
-      req.flash('errors', { msg: error.response.data.message });
+    }).catch((error) => {
+      req.flash('errors', { msg: error.message });
       res.redirect('/');
     });
-
-  res.redirect('/');
 };
 
 /**

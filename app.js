@@ -109,7 +109,8 @@ app.use('/webfonts', express.static(path.join(__dirname, 'node_modules/@fortawes
  */
 app.get('/', homeController.index);
 app.get('/logged', homeController.loggedIndex);
-app.get('/cadastrar-prato', restauranteController.cadastrarPrato);
+app.get('/cadastrar-prato', restauranteController.getCadastrarPrato);
+app.post('/cadastrar-prato', restauranteController.cadastrarPrato);
 app.get('/listar-pratos', restauranteController.listarPratos);
 app.get('/listar-pedidos', restauranteController.listarPedidos);
 app.get('/ver-perfil', restauranteController.verPerfil);
