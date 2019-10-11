@@ -28,6 +28,7 @@ dotenv.config({ path: '.env.example' });
  * Controllers (route handlers).
  */
 const homeController = require('./controllers/home');
+const restauranteController = require('./controllers/restaurante');
 const userController = require('./controllers/user');
 const apiController = require('./controllers/api');
 const contactController = require('./controllers/contact');
@@ -107,6 +108,11 @@ app.use('/webfonts', express.static(path.join(__dirname, 'node_modules/@fortawes
  * Primary app routes.
  */
 app.get('/', homeController.index);
+app.get('/logged', homeController.loggedIndex);
+app.get('/cadastrar-prato', restauranteController.cadastrarPrato);
+app.get('/listar-pratos', restauranteController.listarPratos);
+app.get('/listar-pedidos', restauranteController.listarPedidos);
+app.get('/ver-perfil', restauranteController.verPerfil);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);
